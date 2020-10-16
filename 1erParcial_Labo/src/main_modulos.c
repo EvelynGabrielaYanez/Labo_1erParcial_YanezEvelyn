@@ -32,16 +32,19 @@ int menu() {
 		printf(" 1.ALTA ELECTRODOMESTICO\n");
 		printf(" 2.MODIFICAR ELECTRODOMESTICO\n");
 		printf(" 3.BAJA ELECTRODOMESTICOS\n");
-		printf(" 4.ALTA REPARACION\n");
-		printf(" 5.LISTAR\n");
-		printf(" 6.SALIR\n");
+		printf(" 4.LISTAR EMPLEADOS\n");
+		printf(" 5.LISTAR MARCAS\n");
+		printf(" 6.LISTAR SERVICIOS\n");
+		printf(" 7.ALTA REPARACION\n");
+		printf(" 8.LISTAR REPARACIONES\n");
+		printf(" 9.SALIR\n");
 		printf("----------------------------------------\n");
 
 		//Pido el ingreso de un numero entero entre 1 y 5 para seleccionar la opcion de menu
 		vResultadoIngreso = utn_getNumero(&vOpcionMenu,
 				" Ingrese la opcion deseada: ",
 				" No ingreso una opcion valida.\n Vuelva a intentarlo.\n"
-				, 1, 6,0);
+				, 1, 9,0);
 
 	} while (vResultadoIngreso == -1);//Mientras que el el ingreso sea erroneo continuo pidiendolo
 
@@ -59,11 +62,10 @@ void altasElectrodomestico(eElectrodomesticos *listaElectrodomesticos, int largo
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && *pcontadorIdElect >= 0 &&
 			listaMarcas!= NULL && largoMarcas>0) {
 
-		if (utn_getTextoSoloLetras(electrodomesticoIngresado.serie, CANTIDAD_CARACTERES_SERIE,
-				" Ingrese el numero de serie: ",
-				" Numero de serie invalido ", REINTENTOS)
-				== 0) {
-			system("cls");
+
+		if (pedirSeriePorPantalla(listaElectrodomesticos, largoElectrodomesticos, CANTIDAD_CARACTERES_SERIE,
+				" Ingrese el numero de serie \n", " Ingreso un numero de serie invalido\n", REINTENTOS, electrodomesticoIngresado.serie)==0) {
+				system("cls");
 
 			if (pedirMarcaPorID(&electrodomesticoIngresado.idMarca, " Ingrese el id de la marca: ",
 					" Id ingresado invalido. ", listaMarcas , largoMarcas, REINTENTOS)
@@ -134,9 +136,8 @@ void modificarElectrodomestico(eElectrodomesticos *listaElectrodomesticos, int l
 
 							printf("\n\n----------------MODIFICAR---------------\n");
 							printf(" 1.SERIE\n");
-							printf(" 2.MARCA\n");
-							printf(" 3.MODELO\n");
-							printf(" 4.VOLVER\n");
+							printf(" 2.MODELO\n");
+							printf(" 3.VOLVER\n");
 							printf("----------------------------------------\n");
 
 						} while (utn_getNumero(&vOpcionSubMenu,
@@ -149,12 +150,9 @@ void modificarElectrodomestico(eElectrodomesticos *listaElectrodomesticos, int l
 						switch (vOpcionSubMenu) { //Analizo caso por caso de la opcion seleccionada del menu
 						case 1:
 							//Pido el ingreso del nombre modificado (solo dejo ingresar letras), si es correcto lo modifico
-							if (utn_getTextoSoloLetras(
-									listaElectrodomesticos[vPosicionElectrodomestico].serie,
-									CANTIDAD_CARACTERES_SERIE,
-									" Ingrese la serie del electrodomestico: ",
-									" El numero de serie ingresado es invalido. ",
-									REINTENTOS) == 0) {
+							if (pedirSeriePorPantalla(listaElectrodomesticos, largoElectrodomesticos, CANTIDAD_CARACTERES_SERIE,
+									" Ingrese la serie del electrodomestico \n", " Ingreso un numero de serie invalido\n", REINTENTOS,
+									listaElectrodomesticos[vPosicionElectrodomestico].serie )==0) {
 								system("cls");
 								printf("\n Modificacion realizada.\n ");
 							} else {
@@ -164,19 +162,6 @@ void modificarElectrodomestico(eElectrodomesticos *listaElectrodomesticos, int l
 							system("pause");
 							break;
 						case 2:
-
-							if (pedirMarcaPorID(&listaElectrodomesticos[vPosicionElectrodomestico].idMarca
-									, " Ingrese el ID de la marca: "," Ingreso un Id invalido ",
-									listaMarcas, largoMarca, REINTENTOS) == 0) {
-								system("cls");
-								printf("\n Modificacion realizada.\n ");
-							} else {
-								system("cls");
-								printf("\n No se realizo la modificacion.\n ");
-							}
-							system("pause");
-							break;
-						case 3:
 							if (utn_getNumero(&listaElectrodomesticos[vPosicionElectrodomestico].modelo,
 									" Ingrese el modelo modificado: ",
 									" No ingreso un ano valida (1000-2020) ",
@@ -189,7 +174,7 @@ void modificarElectrodomestico(eElectrodomesticos *listaElectrodomesticos, int l
 							}
 							system("pause");
 							break;
-						case 4:
+						case 3:
 							//Pregunto si desea volver al menu
 							do {
 								vRespuestaVolver = unt_preguntaRespuestaBinaria(
@@ -231,6 +216,7 @@ void bajaElectrodomesticos(eElectrodomesticos *listaElectrodomesticos, int largo
 					" Ingrese el ID del usuario que desea eliminar: ",
 					" No ingreso un Id valido.", 0, REINTENTOS) == 0) {
 				system("cls");
+
 				vPosicionElectrodomestico = buscarElectrodomesticosPorId(listaElectrodomesticos, largoElectrodomesticos, vIdElectrodomestico);
 
 				if (vPosicionElectrodomestico >= 0)
@@ -284,13 +270,14 @@ void altaReparacion(eReparacion* listaReparaciones,int largoReparaciones,int *vC
 
 	if (listaReparaciones != NULL && largoReparaciones > 0 && *vContadorIdReparacion >= 0 &&
 			listaServicios!= NULL && largoServicios>0 && listaElectrodomesticos!=NULL && largoElectrodomesticos>0 && largoMarca>0 && listaMarca !=NULL)  {
+		if (hayElectrodomesticoCargado(listaElectrodomesticos, largoElectrodomesticos) == 0) {
 
 			if (pedirElectrodomesticoPorSerie(reparacionIngresado.serie, " Ingrese la serie del electrodomestico: ",
 					" La serie ingresada es invalida ", listaElectrodomesticos , largoElectrodomesticos, REINTENTOS, listaMarca, largoMarca)
 					== 0)
 			{
 				system("cls");
-				if (pedirServicioPorID(&reparacionIngresado.id, " Ingrese el ano del modelo: ", " Ingreso un ano invalido",
+				if (pedirServicioPorID(&reparacionIngresado.id, " Ingrese el id del servicio: ", " Ingreso un id invalido",
 						listaServicios, largoServicios, REINTENTOS)== 0) {
 					system("cls");
 
@@ -299,15 +286,15 @@ void altaReparacion(eReparacion* listaReparaciones,int largoReparaciones,int *vC
 					vBanderaReintentos = 0;
 					system("cls");
 					if(utn_getFecha(&reparacionIngresado.fecha.dia, &reparacionIngresado.fecha.mes, &reparacionIngresado.fecha.anio,
-										" Ingrese la fecha de reparacion ", " Ingreso una fecha invalida.", REINTENTOS)){
-
+										" Ingrese la fecha de reparacion (dd/mm/aaaa)", " Ingreso una fecha invalida.", REINTENTOS)){
+						reparacionIngresado.estaVacio = 0;
 					if (agregarReparacion(listaReparaciones, largoReparaciones, reparacionIngresado) == 0)
 					{
 					(*vContadorIdReparacion)++;
 						printf("\n Se le ha asignado el legajo: %d \n Alta exitosa.\n ",*vContadorIdReparacion);
 
 					} else {
-						printf("\n Hay %d electrodomesticos cargados, no es posible cargar mas.\n No se ha dado el alta.\n ",
+						printf("\n Hay %d reparaciones cargados, no es posible cargar mas.\n No se ha dado el alta.\n ",
 							largoReparaciones);
 					}
 					}
@@ -318,9 +305,129 @@ void altaReparacion(eReparacion* listaReparaciones,int largoReparaciones,int *vC
 		{
 			printf("\n No tiene mas reintentos.\n No se ha dado el alta.\n ");
 		}
+	}else{
+		system("cls");
+		printf("\n No puede informar, no hay electrodomesticos cagados.\n ");
+	}
+
+	}
+	return;
+}
+void listarElectrodomesticos(eElectrodomesticos* listaElectrodomesticos,int largoElectrodomesticos,eMarca *listaMarcas,int largoMarcas){
+
+
+	int vOpcionSubMenu;				//Contendra la opcion del menu seleccionada
+
+	if (listaElectrodomesticos != NULL && largoElectrodomesticos>0 && listaMarcas != NULL && largoMarcas>0) {
+
+		if (hayElectrodomesticoCargado(listaElectrodomesticos, largoElectrodomesticos) == 0) {
+
+
+				do {
+					system("cls");
+
+					printf("--------------------LISTA DE EMPLEADOS---------------------\n");
+					printf(" 1.ORDENADA POR SERIE Y MODELO DE MANERA ASCENDENTE\n");
+					printf(" 2.ORDENADA POR SERIE Y MODELO DE MANERA DESCENDENTE\n");
+					printf("-----------------------------------------------------------\n");
+
+				} while (utn_getNumero(&vOpcionSubMenu,
+						" Ingrese la opcion que desea: ",
+						" No ingreso una opcion valida.\n Vuelva a intentarlo.\n",
+						1, 2, 0) == -1);
+				system("cls");
+
+				switch (vOpcionSubMenu) {
+				case 1:
+					if (ordenarElectrodomesticos(listaElectrodomesticos, largoElectrodomesticos, listaMarcas, largoMarcas, 1) == 0
+							&& imprimirElectrodomesticos(listaElectrodomesticos, largoElectrodomesticos, listaMarcas, largoMarcas) == 0) {
+						printf("\n Informe finalizado.\n ");
+					}
+					break;
+				case 2:
+
+					if (ordenarElectrodomesticos(listaElectrodomesticos, largoElectrodomesticos, listaMarcas, largoMarcas, 0) == 0
+							&&  imprimirElectrodomesticos(listaElectrodomesticos, largoElectrodomesticos, listaMarcas, largoMarcas) == 0) {
+						printf("\n Informe finalizado.\n ");
+					}
+
+					break;
+				}
+
+		} else {
+			system("cls");
+			printf("\n No puede informar, no hay electrodomesticos cagados.\n ");
+		}
+	}
+
+	return;
+}
+void listarMarcas(eMarca* listaMarcas, int largoMarcas, eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos){
+
+	if(listaMarcas!= NULL && largoMarcas>0 && listaElectrodomesticos != NULL && largoElectrodomesticos>0)
+	{
+		if (hayElectrodomesticoCargado(listaElectrodomesticos, largoElectrodomesticos) == 0) {
+
+			mostrarMarcas(listaMarcas, largoMarcas);
+
+		}else{
+
+			system("cls");
+			printf("\n No puede informar, no hay electrodomesticos cagados.\n ");
+
+		}
+
 	}
 
 
+	return;
+}
+void listarServicios(eServicio* listaServicios, int largoServicios, eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos){
+
+	if(listaServicios!= NULL && largoServicios>0 && listaElectrodomesticos != NULL && largoElectrodomesticos>0)
+	{
+		if (hayElectrodomesticoCargado(listaElectrodomesticos, largoElectrodomesticos) == 0) {
+
+			if(mostrarServicios(listaServicios, largoServicios)==0){
+				printf("\n Listado finalizado.");
+				system("pause");
+			}
+
+		}else{
+
+			system("cls");
+			printf("\n No puede informar, no hay electrodomesticos cagados.\n ");
+			system("pause");
+		}
+
+	}
+
 
 	return;
+}
+void listarReparaciones(eReparacion* listaReparaciones,int largoReparaciones,eServicio* listaServicios, int largoServicios
+		,eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos){
+
+	if(listaServicios!= NULL && largoServicios>0 && listaElectrodomesticos != NULL && largoElectrodomesticos>0 && listaReparaciones != NULL
+			&& largoReparaciones>0 )
+	{
+		if (hayElectrodomesticoCargado(listaElectrodomesticos, largoElectrodomesticos) == 0) {
+
+			if(imprimirReparaciones(listaReparaciones, largoReparaciones, listaServicios, largoServicios)==0){
+				printf("\n Listado finalizado.\n");
+				system("pause");
+			}
+
+		}else{
+
+			system("cls");
+			printf("\n No puede informar, no hay electrodomesticos cagados.\n ");
+			system("pause");
+		}
+
+	}
+
+
+	return;
+
 }

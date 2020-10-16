@@ -128,3 +128,4 @@ int validarSerieElectrodomestico(eElectrodomesticos *listadoElectrodomestico, in
 		char* serie) ;
 int pedirElectrodomesticoPorSerie(char *pSerieResultado, char *mensaje, char *mensajeError ,eElectrodomesticos *listadoElectrodomestico,
 		int largoElectrodomestico, int reintentos,eMarca * listadoMarcas,int largoMarcas);
+int pedirSeriePorPantalla(eElectrodomesticos* listadoElectrodomesticos, int largoElectrodomesticos, int largoSerie,char * mensaje, char * mensajeError, int reintentos, char * pRetornoSerie);

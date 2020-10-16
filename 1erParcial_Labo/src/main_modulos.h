@@ -35,3 +35,9 @@ void bajaElectrodomesticos(eElectrodomesticos *listaElectrodomesticos,
 
 void altaReparacion(eReparacion* listaReparaciones,int largoReparaciones,int *vContadorIdReparacion, eServicio* listaServicios,int largoServicios,
 					eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos,  eMarca *listaMarca, int largoMarca);
+
+void listarElectrodomesticos(eElectrodomesticos* listaElectrodomesticos,int largoElectrodomesticos,eMarca *listaMarcas,int largoMarcas);
+void listarMarcas(eMarca* listaMarcas, int largoMarcas, eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos);
+void listarServicios(eServicio* listaServicios, int largoServicios, eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos);
+void listarReparaciones(eReparacion* listaReparaciones,int largoReparaciones,eServicio* listaServicios, int largoServicios
+		,eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos);

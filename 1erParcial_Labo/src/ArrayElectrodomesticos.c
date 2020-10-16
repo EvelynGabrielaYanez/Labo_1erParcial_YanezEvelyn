@@ -94,8 +94,6 @@ int ordenarElectrodomesticos(eElectrodomesticos* listaElectrodomesticos, int lar
 	int i;
 	int j;
 	eElectrodomesticos aux;
-	char descMarcaJ[21];
-	char descMarcaI[21];
 
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && (orden == 0 || orden == 1)) {
 
@@ -108,30 +106,25 @@ int ordenarElectrodomesticos(eElectrodomesticos* listaElectrodomesticos, int lar
 					if (listaElectrodomesticos[i].estaVacio == 0
 							&& listaElectrodomesticos[j].estaVacio == 0) {
 
-						if (strcmp(listaElectrodomesticos[i].serie, listaElectrodomesticos[j].serie) > 0) {
+						if (listaElectrodomesticos[i].modelo>listaElectrodomesticos[j].modelo) {
 
 							aux = listaElectrodomesticos[i];
 							listaElectrodomesticos[i] =
 									listaElectrodomesticos[j];
 							listaElectrodomesticos[j] = aux;
 
-						} else if (listaElectrodomesticos[i].serie
-								== listaElectrodomesticos[j].serie) {
+						} else if (listaElectrodomesticos[i].modelo==listaElectrodomesticos[j].modelo) {
 
-							if (cargarDescMarca(listaElectrodomesticos[j].idMarca, listadoMarcas,
-									largoMarcas, descMarcaJ) == 0 &&
-									cargarDescMarca(listaElectrodomesticos[i].idMarca, listadoMarcas,
-											largoMarcas, descMarcaI) == 1) {
 
-								if (strcmp(descMarcaI, descMarcaJ)>0) {
+							if (strcmp(listaElectrodomesticos[i].serie, listaElectrodomesticos[j].serie) > 0) {
 
-									aux = listaElectrodomesticos[i];
+								aux = listaElectrodomesticos[i];
 									listaElectrodomesticos[i] =listaElectrodomesticos[j];
-									listaElectrodomesticos[j] = aux;
+								listaElectrodomesticos[j] = aux;
 
-								}
 							}
 						}
+
 					}
 				}
 			}
@@ -148,31 +141,22 @@ int ordenarElectrodomesticos(eElectrodomesticos* listaElectrodomesticos, int lar
 					if (listaElectrodomesticos[i].estaVacio == 0
 							&& listaElectrodomesticos[j].estaVacio == 0) {
 
-					if (strcmp(listaElectrodomesticos[i].serie, listaElectrodomesticos[j].serie) < 0) {
-
-						aux = listaElectrodomesticos[i];
-						listaElectrodomesticos[i] = listaElectrodomesticos[j];
-						listaElectrodomesticos[j] = aux;
-
-					} else if (strcmp(listaElectrodomesticos[i].serie, listaElectrodomesticos[j].serie )
-							== 0) {
-
-						if (cargarDescMarca(listaElectrodomesticos[j].idMarca, listadoMarcas,
-								largoMarcas, descMarcaJ) == 0 &&
-								cargarDescMarca(listaElectrodomesticos[i].idMarca, listadoMarcas,
-										largoMarcas, descMarcaI) == 1) {
-
-
-						if (strcmp(descMarcaI, descMarcaJ)>0) {
+						if (listaElectrodomesticos[i].modelo<listaElectrodomesticos[j].modelo) {
 
 							aux = listaElectrodomesticos[i];
 							listaElectrodomesticos[i] = listaElectrodomesticos[j];
 							listaElectrodomesticos[j] = aux;
 
-						}
+						} else if (listaElectrodomesticos[i].modelo==listaElectrodomesticos[j].modelo) {
 
-					}
-					}
+							if (strcmp(listaElectrodomesticos[i].serie, listaElectrodomesticos[j].serie) < 0) {
+
+								aux = listaElectrodomesticos[i];
+								listaElectrodomesticos[i] = listaElectrodomesticos[j];
+								listaElectrodomesticos[j] = aux;
+
+							}
+						}
 					}
 
 				}
@@ -191,7 +175,7 @@ int imprimirElectrodomesticos(eElectrodomesticos *listaElectrodomesticos, int la
 
 	int vRetorno = -1;
 	int i;
-	char descMarca[20];
+	char descMarca[21];
 
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && listaMarcas != NULL && largoMarcas>0) {
 
@@ -205,6 +189,7 @@ int imprimirElectrodomesticos(eElectrodomesticos *listaElectrodomesticos, int la
 				printf("|%12s|%26d|%26s|\n",
 						listaElectrodomesticos[i].serie,listaElectrodomesticos[i].modelo,descMarca);
 				printf("+------------+--------------------------+--------------------------+\n");
+				 vRetorno = 0;
 			}
 
 		}
@@ -231,7 +216,7 @@ int imprimirElectrodomestico(int posicion,eElectrodomesticos *listaElectrodomest
 				printf("|%12s|%26d|%26s|\n",
 						listaElectrodomesticos[posicion].serie,listaElectrodomesticos[posicion].modelo,descMarca);
 				printf("+------------+--------------------------+--------------------------+\n");
-
+				 vRetorno = 0;
 			}
 
 		vRetorno = 0;
@@ -365,3 +350,34 @@ int pedirElectrodomesticoPorSerie(char *pSerieResultado, char *mensaje, char *me
 	return vRetorno;
 }
 
+int pedirSeriePorPantalla(eElectrodomesticos* listadoElectrodomesticos, int largoElectrodomesticos, int largoSerie,char * mensaje, char * mensajeError, int reintentos, char * pRetornoSerie){
+
+	int vRetorno = -1;
+	char vBuffer[largoSerie];
+	int i;
+
+	if(listadoElectrodomesticos != NULL && largoElectrodomesticos>0 && mensaje!= NULL && mensajeError != NULL && largoSerie>0 && reintentos>=0){
+
+		do{
+			system("cls");
+			if(utn_getTexto(vBuffer, largoSerie,mensaje,mensajeError, 0)==0){
+				for(i=0;i<largoElectrodomesticos;i++){
+					if(strcmp(listadoElectrodomesticos[i].serie,vBuffer)!=0)
+					{
+						strncpy(pRetornoSerie, vBuffer,largoSerie);
+						vRetorno=0;
+						break;
+					}else{
+						printf(" El id Ingresado ya esta cagado\n");
+						system("pause");
+						break;
+					}
+				}
+			}
+			reintentos--;
+
+
+		}while(reintentos>=0  && vRetorno == -1);
+	}
+	return vRetorno;
+}

@@ -175,21 +175,26 @@ int imprimirReparaciones(eReparacion * listaReparacion, int largoReparacion,eSer
 	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0) {
 
 
-		printf("+------------+--------------------------+--------------------------+----------|\n");
-		printf("|   SERIE    |          MODELO          |    DESCRIPCION MARCA     |   FECHA  |\n");
-		printf("+------------+--------------------------+--------------------------+----------|\n");
+		printf("+------------+--------------------------+--------------------------+\n");
+		printf("|   SERIE    |       FECHA              |    ID SERVICIO           |\n");
+		printf("+------------+--------------------------+--------------------------+\n");
+
 		for (i = 0; i < largoReparacion; i++) {
 
-			if (cargarDescServicio(listaReparacion[i].idServicio, listaServicios, largoServicios, descServicio)==0 && listaReparacion[i].estaVacio == 0) {
-				printf("|%12s|%26s|%2d/%2d/%4d|\n",
-						listaReparacion[i].serie,descServicio,listaReparacion[i].fecha.dia,
-						listaReparacion[i].fecha.mes, listaReparacion[i].fecha.anio);
-				printf("+------------+--------------------------+--------------------------+\n");
+			//if (cargarDescServicio(listaReparacion[i].idServicio, listaServicios, largoServicios, descServicio)==0) {
+
+				if(listaReparacion[i].estaVacio == 0){
+					printf("|%12s|%26s|%2d/%2d/%4d|%26d|\n",
+							listaReparacion[i].serie,descServicio,listaReparacion[i].fecha.dia,
+							listaReparacion[i].fecha.mes, listaReparacion[i].fecha.anio, listaReparacion[i].idServicio);
+			printf("+------------+--------------------------+--------------------------+----------|\n");
+			 vRetorno = 0;
+				}
+
 			}
 
-		}
 
-			vRetorno = 0;
+
 	}
 	return vRetorno;
 }
@@ -201,17 +206,17 @@ int imprimirReparacion(int posicion,eReparacion *listaReparacion, int largoRepar
 	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0) {
 
 
-			printf("+--------------------------+--------------------+--------------------------+----------------+----------------+-------------------+------------+\n");
-			printf("|          CARRERA         |      APELLIDO      |          NOMBRE          |     NOTA 1     |     NOTA 2     |    NOTA PROMEDIO  |   LEGAJO   |\n");
-			printf("+--------------------------+--------------------+--------------------------+----------------+----------------+-------------------+------------+\n");
+		printf("+------------+--------------------------+--------------------------+----------|\n");
+		printf("|   SERIE    |          MODELO          |    DESCRIPCION SERVICIO  |   FECHA  |\n");
+		printf("+------------+--------------------------+--------------------------+----------|\n");
 
-			if (cargarDescServicio(listaReparacion[posicion].idServicio, listaServicios, largoServicios, descServicio)==0 && listaReparacion[posicion].estaVacio == 0) {
-				printf("|%12s|%26s|%2d/%2d/%4d|\n",
+		//	if (cargarDescServicio(listaReparacion[posicion].idServicio, listaServicios, largoServicios, descServicio)==0 && listaReparacion[posicion].estaVacio == 0) {
+				printf("|%12s|%26s|%2d/%2d/%4d|%26d|\n",
 						listaReparacion[posicion].serie,descServicio,listaReparacion[posicion].fecha.dia,
-						listaReparacion[posicion].fecha.mes, listaReparacion[posicion].fecha.anio);
-				printf("+------------+--------------------------+--------------------------+\n");
-
-			}
+						listaReparacion[posicion].fecha.mes, listaReparacion[posicion].fecha.anio, listaReparacion[posicion].idServicio);
+				printf("+------------+--------------------------+--------------------------+----------|\n");
+				system("pause");
+			//}
 
 		vRetorno = 0;
 	}
@@ -279,15 +284,15 @@ int hardcodearReparaciones(eReparacion* listaReparacion ,int largoReparacion , i
 		{
 
 				{0,"AAAA",{12,5,2018},20001,0},
-				{1,"AAAA",{20,5,2013},20000,0},
-				{2,"AAAA",{4,8,2014},20003,0},
-				{3,"AAAA",{20,3,2015},20002,0},
-				{4,"AAAA",{11,5,2016},20000,0},
+				{1,"AAAA",{20,5,2013},20001,0},
+				{2,"AAAA",{4,8,2014},20001,0},
+				{3,"AAAA",{20,3,2015},20001,0},
+				{4,"AAAA",{11,5,2016},20001,0},
 				{5,"AAAA",{5,1,2019},20001,0},
-				{6,"AAAA",{5,10,2017},20003,0},
-				{7,"AAAA",{1,1,2020} ,20002,0},
-				{8,"AAAA",{20,6,2018},20009,0},
-				{9,"AAAA",{12,5,2015},20008,0}
+				{6,"AAAA",{5,10,2017},20001,0},
+				{7,"AAAA",{1,1,2020} ,20001,0},
+				{8,"AAAA",{20,6,2018},20001,0},
+				{9,"AAAA",{12,5,2015},20001,0}
 		};
 
 			for(i =0; i<cantidad;i++){

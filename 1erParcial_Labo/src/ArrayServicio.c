@@ -112,12 +112,25 @@ int cargarDescServicio(int idServicio,eServicio* listadoServicios,int largoServi
 
 	if(idServicio>=0 && listadoServicios!=NULL && largoServicios>0 && descServicio != NULL)
 	{
+		printf("%d\n",listadoServicios[0].id);
+		printf("%d\n",idServicio);
+		system("pause");
+
 		for(i=0; i<largoServicios;i++)
 		{
+			printf("%d",i);
+			printf("%d\n",listadoServicios[i].id);
+					printf("%d\n",idServicio);
+					system("pause");
+
 			if(listadoServicios[i].id == idServicio){
-				strncpy(descServicio,listadoServicios[i].descripcion,51);
+				printf("entra");
+				strncpy(descServicio,listadoServicios[i].descripcion,26);
 				vRetorno=0;
-				break;
+				printf(descServicio);
+				printf("\n%d",vRetorno);
+				system("pause");
+				i=largoServicios;
 			}
 		}
 	}

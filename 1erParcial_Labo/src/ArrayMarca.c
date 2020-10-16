@@ -105,17 +105,17 @@ int pedirMarcaPorID(int *pIdResultado, char *mensaje, char *mensajeError ,eMarca
 
 	return vRetorno;
 }
-int cargarDescMarca(int idCarrera,eMarca* listadoMarcas,int largoMarcas, char * descMarca)
+int cargarDescMarca(int idMarca,eMarca* listadoMarcas,int largoMarcas, char * descMarca)
 {
 	int vRetorno = -1;
 	int i;
 
-	if(idCarrera>=0 && listadoMarcas!=NULL && largoMarcas>0 && descMarca != NULL)
+	if(idMarca>=0 && listadoMarcas!=NULL && largoMarcas>0 && descMarca != NULL)
 	{
 		for(i=0; i<(largoMarcas);i++)
 		{
-			if(listadoMarcas[i].id == idCarrera){
-				strncpy(descMarca,listadoMarcas[i].descripcion,51);
+			if(listadoMarcas[i].id == idMarca){
+				strncpy(descMarca,listadoMarcas[i].descripcion,21);
 				vRetorno=0;
 				break;
 			}

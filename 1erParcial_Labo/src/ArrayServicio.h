@@ -11,7 +11,7 @@
 typedef struct{
 
 	int id;
-	char descripcion[25];
+	char descripcion[26];
 	float precio;
 
 }eServicio;

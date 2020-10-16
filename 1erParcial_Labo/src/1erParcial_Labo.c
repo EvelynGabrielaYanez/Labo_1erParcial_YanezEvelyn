@@ -36,6 +36,9 @@ int main(void) {
 	int vContadorIdElectrodomestico = 0;
 	int vContadorIdReparacion = 0;
 
+	vContadorIdElectrodomestico+= hardcodearElectrodomesticos(listaElectrodomesticos,ELECTRODOMESTICOS, 10);
+	vContadorIdReparacion+= hardcodearReparaciones(listaReparaciones, REPARACIONES, 10);
+
 	if (inicializarElectrodomesticos(listaElectrodomesticos, ELECTRODOMESTICOS) == 0 &&
 			inicializarReparacion(listaReparaciones, REPARACIONES) == 0) {
 
@@ -56,19 +59,24 @@ int main(void) {
 				system("pause");
 				break;
 			case 4:
-				//informar(lista, ALUMNOS , listaCarreras, CARRERAS);
-				altaReparacion(listaReparaciones, REPARACIONES, &vContadorIdReparacion, listaServicios, SERVICIOS, listaElectrodomesticos, ELECTRODOMESTICOS, listaMarcas , MARCAS);
+				listarElectrodomesticos(listaElectrodomesticos,ELECTRODOMESTICOS,listaMarcas,MARCAS);
 				system("pause");
 				break;
 			case 5:
-				//listarElectrodomesticos(listaElectrodomesticos, ELECTRODOMESTICOS, listaMarcas, MARCAS);
-				break;
-			case 6:
-				//informar(lista, ALUMNOS , listaCarreras, CARRERAS);
-				//listaReparaciones(listaReparaciones, REPARACIONES, &vContadorIdReparacion, listaServicios, SERVICIOS, listaElectrodomesticos, ELECTRODOMESTICOS);
+				listarMarcas(listaMarcas, MARCAS, listaElectrodomesticos, ELECTRODOMESTICOS);
 				system("pause");
 				break;
+			case 6:
+				listarServicios(listaServicios, SERVICIOS, listaElectrodomesticos, ELECTRODOMESTICOS);
+				break;
 			case 7:
+				altaReparacion(listaReparaciones, REPARACIONES, &vContadorIdReparacion, listaServicios, SERVICIOS, listaElectrodomesticos, ELECTRODOMESTICOS, listaMarcas , MARCAS);
+				system("pause");
+				break;
+			case 8:
+				listarReparaciones(listaReparaciones,REPARACIONES,listaServicios, SERVICIOS, listaElectrodomesticos, ELECTRODOMESTICOS);
+				break;
+			case 9:
 				do{
 				//Pregunto si desea salir hasta que ingrese s o n.
 				vRespSalir = unt_preguntaRespuestaBinaria("\n Desea Salir?(s/n) ", 's', 'n');

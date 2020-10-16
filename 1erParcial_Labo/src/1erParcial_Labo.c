@@ -36,8 +36,8 @@ int main(void) {
 	int vContadorIdElectrodomestico = 0;
 	int vContadorIdReparacion = 0;
 
-	vContadorIdElectrodomestico+= hardcodearElectrodomesticos(listaElectrodomesticos,ELECTRODOMESTICOS, 10);
-	vContadorIdReparacion+= hardcodearReparaciones(listaReparaciones, REPARACIONES, 10);
+	//vContadorIdElectrodomestico+= hardcodearElectrodomesticos(listaElectrodomesticos,ELECTRODOMESTICOS, 10);
+	//vContadorIdReparacion+= hardcodearReparaciones(listaReparaciones, REPARACIONES, 10);
 
 	if (inicializarElectrodomesticos(listaElectrodomesticos, ELECTRODOMESTICOS) == 0 &&
 			inicializarReparacion(listaReparaciones, REPARACIONES) == 0) {

@@ -584,7 +584,7 @@ int informarMarcaMayCantElect(eElectrodomesticos* listaElectrodomesticos,int lar
 			printf("\n La serie con mas reparaciones es  %s tiene %d reparaciones.\n ", descripcionMarcaMax,max);
 		}else
 		{
-			printf("\n No hay ninguna reparacion.\n ");
+			printf("\n No hay ningun electrodomestico.\n ");
 		}
 		vRetorno = 0;
 
@@ -616,13 +616,13 @@ int informarPromedioElectrodPorMarca(eElectrodomesticos* listaElectrodomesticos,
 		}
 
 
-		if(contadorElectrodomesticos>0)
+		if(largoMarcas>0)
 		{
 			promedio = (float)contadorElectrodomesticos/largoMarcas ;
 			printf("\n El promedio de electrodomesticos por marca es: %.2f.\n ",promedio);
 		}else
 		{
-			printf("\n No hay ningun electrodomestico.\n ");
+			printf("\n No hay ninguna marca cargada.\n ");
 		}
 		vRetorno = 0;
 
@@ -658,13 +658,13 @@ int informarPromedioRepaPorElect(eReparacion* listaReparacion,int largoReparacio
 		}
 
 
-		if(contadorReparaciones>0)
+		if(contadorElectrodomesticos>0)
 		{
 			promedio = (float)contadorReparaciones/contadorElectrodomesticos ;
 			printf("\n El promedio de reparaciones por electrodomestico es: %.2f.\n ",promedio);
 		}else
 		{
-			printf("\n No hay ninguna reparacion.\n ");
+			printf("\n No hay ningun electrodomestico cargado.\n ");
 		}
 		vRetorno = 0;
 
@@ -697,13 +697,13 @@ int informarPromedioRepaPorCliente(eReparacion* listaReparaciones, int largoRepa
 			}
 
 
-			if(contadorElectrodomesticos>0)
+			if(largoClientes>0)
 			{
 				promedio = (float)contadorElectrodomesticos/largoClientes ;
 				printf("\n El promedio de reparaciones por cliente es: %.2f.\n ",promedio);
 			}else
 			{
-				printf("\n No hay ninguna reparacion.\n ");
+				printf("\n No hay ningun cliente.\n ");
 			}
 			vRetorno = 0;
 

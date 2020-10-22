@@ -37,7 +37,7 @@ int mostrarServicio(eServicio *lista, int largo, int id) {
 	if (lista != NULL && largo > 0) {
 		vPosicion = buscarServicio(lista, largo, id);
 		if (vPosicion >= 0) {
-			printf("|%20d|%50s|", id, lista[vPosicion].descripcion);
+			printf("|%20d|%50s|%20.2f|\n", lista[vPosicion].id, lista[vPosicion].descripcion,lista[vPosicion].precio);
 			vRetorno = 0;
 		}
 	}
@@ -49,14 +49,15 @@ int mostrarServicios(eServicio* lista,int  largo) {
 
 	if (lista != NULL && largo > 0) {
 		printf(
-				"+--------------------+--------------------------------------------------+\n");
+				"+--------------------+--------------------------------------------------+--------------------+\n");
 		printf(
-				"|         ID         |                    DESCRIPCION                   |\n");
+				"|         ID         |                    DESCRIPCION                   |       PRECIO       |\n");
 		printf(
-				"+--------------------+--------------------------------------------------+\n");
+				"+--------------------+--------------------------------------------------+--------------------+\n");
 		for (i = 0; i < largo; i++) {
-			printf("|%20d|%50s|\n", lista[i].id, lista[i].descripcion);
-			printf("+--------------------+--------------------------------------------------+\n");
+			printf("|%20d|%50s|%20.2f|\n", lista[i].id, lista[i].descripcion,lista[i].precio);
+			printf(
+					"+--------------------+--------------------------------------------------+--------------------+\n");
 		}
 		vRetorno = 0;
 	}
@@ -112,25 +113,34 @@ int cargarDescServicio(int idServicio,eServicio* listadoServicios,int largoServi
 
 	if(idServicio>=0 && listadoServicios!=NULL && largoServicios>0 && descServicio != NULL)
 	{
-		printf("%d\n",listadoServicios[0].id);
-		printf("%d\n",idServicio);
-		system("pause");
+
 
 		for(i=0; i<largoServicios;i++)
 		{
-			printf("%d",i);
-			printf("%d\n",listadoServicios[i].id);
-					printf("%d\n",idServicio);
-					system("pause");
 
 			if(listadoServicios[i].id == idServicio){
-				printf("entra");
 				strncpy(descServicio,listadoServicios[i].descripcion,26);
 				vRetorno=0;
-				printf(descServicio);
-				printf("\n%d",vRetorno);
-				system("pause");
-				i=largoServicios;
+				break;
+			}
+		}
+	}
+
+	return vRetorno;
+}
+int cargarImporteServicio(int idServicio,eServicio* listadoServicios,int largoServicios, float* importe)
+{
+	int vRetorno = -1;
+	int i;
+
+	if(idServicio>=0 && listadoServicios!=NULL && largoServicios>0 && importe>0)
+	{
+		for(i=0; i<largoServicios;i++)
+		{
+			if(listadoServicios[i].id == idServicio){
+				*importe = listadoServicios[i].precio;
+				vRetorno=0;
+				break;
 			}
 		}
 	}
@@ -138,4 +148,27 @@ int cargarDescServicio(int idServicio,eServicio* listadoServicios,int largoServi
 	return vRetorno;
 }
 
+int cargarDescImporteServicio(int idServicio,eServicio* listadoServicios,int largoServicios, char * descServicio, float* precioServicio)
+{
+	int vRetorno = -1;
+	int i;
+
+	if(idServicio>=0 && listadoServicios!=NULL && largoServicios>0 && descServicio != NULL)
+	{
+
+
+		for(i=0; i<largoServicios;i++)
+		{
+
+			if(listadoServicios[i].id == idServicio){
+				strncpy(descServicio,listadoServicios[i].descripcion,26);
+				*precioServicio = listadoServicios[i].precio;
+				vRetorno=0;
+				break;
+			}
+		}
+	}
+
+	return vRetorno;
+}
 

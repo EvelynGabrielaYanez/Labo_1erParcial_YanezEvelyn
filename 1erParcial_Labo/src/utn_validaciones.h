@@ -106,33 +106,36 @@ int utn_tomarIngresoBinario(char *pRespuesta, char *mensaje, char *mensajeError,
  * 		  y sin reintetos para intentar (no se ingreso correctamente)]
  */
 int utn_getFecha(int * dia, int * mes, int * anio, char *mensaje, char *mensajeError,int reintentos);
-/**
+/**@brief	Solicita al usuario el ingreso de un correo electronico, lo valida y devuelve la cadena ingresada.
  *
- * @param pCorreoElectronico
- * @param mensaje
- * @param mensajeError
- * @param reintentos
- * @param largo
- * @return
+ * @param pCorreoElectronico Puntero al arrray de caracteres donde se guardara el correo ingresado
+ * @param mensaje Es el mensaje a ser mostrado
+ * @param mensajeError Es el mensaje de Error a ser mostrado
+ * @param reintentos Int. Es la cantidad de reintentos que tendra el usuario
+ * @param largo	Int, largo del array de caracteres del correo esperado
+ * @return retorna (0) en caso de EXITO- (-1) en caso de ERROR [puntero nulo, reinteintos invalido
+ * 		  y sin reintetos para intentar (no se ingreso correctamente)]
  */
 int utn_getCorreoElectronico(char* pCorreoElectronico, char *mensaje,char *mensajeError, int reintentos, int largo) ;
-/**
+/**	@brief Solicita el ingreso de un cuil, lo valida y devuelve la cadena ingresada.
  *
- * @param pCuit
- * @param mensaje
- * @param mensajeError
- * @param largo
- * @param reintentos
- * @return
+ * @param pCuit Puntero al arrray de caracteres donde se guardara el cuit ingresado
+ * @param mensaje Es el mensaje a ser mostrado
+ * @param mensajeError Es el mensaje de Error a ser mostrado
+ * @param largo	Int, largo del array de caracteres del correo esperado
+ * @param reintentos  Int. Es la cantidad de reintentos que tendra el usuario
+ * @return retorna (0) en caso de EXITO- (-1) en caso de ERROR [puntero nulo, reinteintos invalido
+ * 		  y sin reintetos para intentar (no se ingreso correctamente)]
  */
 int utn_tomarCuit(char *pCuit,char *mensaje,char* mensajeError,int largo, int reintentos);
-/**
+/**@brief Solicita el ingreso de un DNI, lo valida y devuelve la cadena ingresada.
  *
- * @param pCuit
- * @param mensaje
- * @param mensajeError
- * @param largo
- * @param reintentos
- * @return
+ * @param pDNI pCuit Puntero al arrray de caracteres donde se guardara el DNI ingresado.
+ * @param mensaje Es el mensaje a ser mostrado.
+ * @param mensajeError Es el mensaje de Error a ser mostrado.
+ * @param largo	Int, largo del array de caracteres del correo esperado.
+ * @param reintentos  Int. Es la cantidad de reintentos que tendra el usuario
+ * @return retorna (0) en caso de EXITO- (-1) en caso de ERROR [puntero nulo, reinteintos invalido
+ * 		  y sin reintetos para intentar (no se ingreso correctamente)]
  */
-int utn_tomarDNI(char *pCuit,char *mensaje,char* mensajeError,int largo, int reintentos);
+int utn_tomarDNI(char *pDNI,char *mensaje,char* mensajeError,int largo, int reintentos);

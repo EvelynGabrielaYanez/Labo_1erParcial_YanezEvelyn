@@ -15,18 +15,16 @@ int inicializarReparacion(eReparacion* listaReparacion, int largoReparacion){
 	int vRetorno = 0;
 	int i;
 
-	if (listaReparacion != NULL && largoReparacion > 0) {
-
-		for (i = 0; i < largoReparacion; i++) {
-
+	if (listaReparacion != NULL && largoReparacion > 0)
+	{
+		for (i = 0; i < largoReparacion; i++)
+		{
 			listaReparacion[i].estaVacio = 1;
-
 		}
 
-	} else {
-
+	} else
+	{
 		vRetorno = -1;
-
 	}
 
 	return vRetorno;
@@ -89,140 +87,89 @@ int removerReparacion(eReparacion* listaReparacion, int largoReparacion, int id)
 
 	return vRetorno;
 }
-/*int ordenarElectrodomesticos(eElectrodomesticos *listaElectrodomesticos, int largoElectrodomesticos, int orden) {
 
-	int vRetorno = -1;
-	int i;
-	int j;
-	eElectrodomesticos aux;
-
-	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && (orden == 0 || orden == 1)) {
-
-		switch (orden) {
-		case 0:
-			for (i = 0; i < largoElectrodomesticos - 1; i++) {
-
-				for (j = 0; j < largoElectrodomesticos; j++) {
-
-					if (strcmp(listaElectrodomesticos[i].apellido, listaElectrodomesticos[j].apellido) > 0) {
-
-						aux = listaElectrodomesticos[i];
-						listaElectrodomesticos[i] = listaElectrodomesticos[j];
-						listaElectrodomesticos[j] = aux;
-
-					} else if (strcmp(listaElectrodomesticos[i].apellido, listaElectrodomesticos[j].apellido)
-							== 0) {
-
-						if (listaElectrodomesticos[i].idMarca > listaElectrodomesticos[j].idMarca) {
-
-							aux = listaElectrodomesticos[i];
-							listaElectrodomesticos[i] = listaElectrodomesticos[j];
-							listaElectrodomesticos[j] = aux;
-
-						}
-
-					}
-
-				}
-			}
-
-			vRetorno = 0;
-
-			break;
-
-		case 1:
-			for (i = 0; i < largoElectrodomesticos - 1; i++) {
-
-				for (j = 0; j < largoElectrodomesticos; j++) {
-
-					if (strcmp(listaElectrodomesticos[i].apellido, listaElectrodomesticos[j].apellido) < 0) {
-
-						aux = listaElectrodomesticos[i];
-						listaElectrodomesticos[i] = listaElectrodomesticos[j];
-						listaElectrodomesticos[j] = aux;
-
-					} else if (strcmp(listaElectrodomesticos[i].apellido, listaElectrodomesticos[j].apellido)
-							== 0) {
-
-						if (listaElectrodomesticos[i].idMarca < listaElectrodomesticos[j].idMarca) {
-
-							aux = listaElectrodomesticos[i];
-							listaElectrodomesticos[i] = listaElectrodomesticos[j];
-							listaElectrodomesticos[j] = aux;
-
-						}
-
-					}
-
-				}
-			}
-
-			vRetorno = 0;
-			break;
-		}
-
-	}
-
-	return vRetorno;
-}*/
-
-int imprimirReparaciones(eReparacion * listaReparacion, int largoReparacion,eServicio* listaServicios, int largoServicios)  {
+int imprimirReparaciones(eReparacion * listaReparacion, int largoReparacion,eServicio* listaServicios, int largoServicios, eCliente* listaClientes,int largoClientes)  {
 
 	int vRetorno = -1;
 	int i;
 	char descServicio[26];
+	char nombreCliente[21];
+	char apellidoCliente[21];
 
 	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0) {
 
 
-		printf("+------------+--------------------------+--------------------------+\n");
-		printf("|   SERIE    |       FECHA              |    ID SERVICIO           |\n");
-		printf("+------------+--------------------------+--------------------------+\n");
+		printf("+------------+----------+--------------------------+--------------------------+--------------------------+\n");
+		printf("|   SERIE    |   FECHA  | DESCRIPCION DEL SERVICIO |      NOMBRE CLIENTE      |     APELLIDO CLIENTE     |\n");
+		printf("+------------+----------+--------------------------+--------------------------+--------------------------+\n");
 
 		for (i = 0; i < largoReparacion; i++) {
 
-			//if (cargarDescServicio(listaReparacion[i].idServicio, listaServicios, largoServicios, descServicio)==0) {
+			if (cargarDescServicio(listaReparacion[i].idServicio, listaServicios, largoServicios, descServicio)==0 &&
+					cargarDescCliente(listaReparacion[i].idCliente, listaClientes, largoClientes, nombreCliente, apellidoCliente) == 0) {
 
 				if(listaReparacion[i].estaVacio == 0){
-					printf("|%12s|%26s|%2d/%2d/%4d|%26d|\n",
-							listaReparacion[i].serie,descServicio,listaReparacion[i].fecha.dia,
-							listaReparacion[i].fecha.mes, listaReparacion[i].fecha.anio, listaReparacion[i].idServicio);
-			printf("+------------+--------------------------+--------------------------+----------|\n");
-			 vRetorno = 0;
+					printf("|%12s|%2d/%2d/%4d|%26s|%26s|%26s|\n",
+							listaReparacion[i].serie,listaReparacion[i].fecha.dia,
+							listaReparacion[i].fecha.mes, listaReparacion[i].fecha.anio,descServicio, nombreCliente,apellidoCliente);
+					printf("+------------+----------+--------------------------+--------------------------+--------------------------+\n");
+					vRetorno = 0;
 				}
-
 			}
-
-
-
+		}
 	}
 	return vRetorno;
 }
-int imprimirReparacion(int posicion,eReparacion *listaReparacion, int largoReparacion,eServicio* listaServicios, int largoServicios){
+int imprimirReparacion(int posicion,eReparacion *listaReparacion, int largoReparacion,
+		eServicio* listaServicios, int largoServicios, eCliente* listaClientes,int largoClientes){
 
 	int vRetorno = -1;
 	char descServicio[26];
+	char nombreCliente[21];
+	char apellidoCliente[21];
 
-	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0) {
+	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0 && largoClientes>0 && listaClientes != NULL) {
 
+		if (cargarDescServicio(listaReparacion[posicion].idServicio, listaServicios, largoServicios, descServicio)==0 &&
+				cargarDescCliente(listaReparacion[posicion].idCliente, listaClientes, largoClientes, nombreCliente, apellidoCliente) == 0) {
 
-		printf("+------------+--------------------------+--------------------------+----------|\n");
-		printf("|   SERIE    |          MODELO          |    DESCRIPCION SERVICIO  |   FECHA  |\n");
-		printf("+------------+--------------------------+--------------------------+----------|\n");
-
-		//	if (cargarDescServicio(listaReparacion[posicion].idServicio, listaServicios, largoServicios, descServicio)==0 && listaReparacion[posicion].estaVacio == 0) {
-				printf("|%12s|%26s|%2d/%2d/%4d|%26d|\n",
-						listaReparacion[posicion].serie,descServicio,listaReparacion[posicion].fecha.dia,
-						listaReparacion[posicion].fecha.mes, listaReparacion[posicion].fecha.anio, listaReparacion[posicion].idServicio);
-				printf("+------------+--------------------------+--------------------------+----------|\n");
-				system("pause");
-			//}
-
-		vRetorno = 0;
+			if(listaReparacion[posicion].estaVacio == 0){
+				printf("|%12s|%2d/%2d/%4d|%26s|%26s|%26s|\n",
+						listaReparacion[posicion].serie,listaReparacion[posicion].fecha.dia,
+						listaReparacion[posicion].fecha.mes, listaReparacion[posicion].fecha.anio,descServicio, nombreCliente,apellidoCliente);
+				printf("+------------+----------+--------------------------+--------------------------+--------------------------+\n");
+				vRetorno = 0;
+			}
+		}
 	}
 	return vRetorno;
 }
+int imprimirReparacionConImporte(int posicion,eReparacion *listaReparacion, int largoReparacion,
+		eServicio* listaServicios, int largoServicios, eCliente* listaClientes,int largoClientes){
 
+	int vRetorno = -1;
+	char descServicio[26];
+	char nombreCliente[21];
+	char apellidoCliente[21];
+	float precioServicio;
+
+	if (listaReparacion != NULL && largoReparacion > 0 && listaServicios != NULL && largoServicios>0 && largoClientes>0 && listaClientes != NULL) {
+
+		if (cargarDescImporteServicio(listaReparacion[posicion].idServicio, listaServicios, largoServicios, descServicio,&precioServicio)==0 &&
+				cargarDescCliente(listaReparacion[posicion].idCliente, listaClientes, largoClientes, nombreCliente, apellidoCliente) == 0) {
+
+			if(listaReparacion[posicion].estaVacio == 0){
+				printf("|%12s|%2d/%2d/%4d|%26s|%12.2f|%26s|%26s|\n",
+						listaReparacion[posicion].serie,listaReparacion[posicion].fecha.dia,
+						listaReparacion[posicion].fecha.mes, listaReparacion[posicion].fecha.anio,descServicio,
+						precioServicio, nombreCliente,apellidoCliente);
+				printf("+------------+----------+--------------------------+------------+--------------------------+--------------------------+\n");
+				vRetorno = 0;
+			}
+		}
+	}
+	return vRetorno;
+}
 
 int sueldoPromedioReparaciones(eReparacion *listaReparacion, int largoReparacion, float *promedio) {
 
@@ -283,16 +230,16 @@ int hardcodearReparaciones(eReparacion* listaReparacion ,int largoReparacion , i
 		eReparacion listaAuxiliar[] =
 		{
 
-				{0,"AAAA",{12,5,2018},20001,0},
-				{1,"AAAA",{20,5,2013},20001,0},
-				{2,"AAAA",{4,8,2014},20001,0},
-				{3,"AAAA",{20,3,2015},20001,0},
-				{4,"AAAA",{11,5,2016},20001,0},
-				{5,"AAAA",{5,1,2019},20001,0},
-				{6,"AAAA",{5,10,2017},20001,0},
-				{7,"AAAA",{1,1,2020} ,20001,0},
-				{8,"AAAA",{20,6,2018},20001,0},
-				{9,"AAAA",{12,5,2015},20001,0}
+				{1,"200C2",{12,5,2018},20001,1,0},
+				{2,"2000A",{20,5,2013},20001,2,0},
+				{3,"20L07",{4,8,2014},20001,1,0},
+				{4,"20008",{20,3,2015},20001,3,0},
+				{5,"20009",{11,5,2016},20001,0,0},
+				{6,"20L07",{5,1,2019},20001,1,0},
+				{7,"20008",{5,10,2017},20001,3,0},
+				{8,"20L07",{1,1,2020} ,20001,2,0},
+				{9,"2000A",{20,6,2018},20001,0,0},
+				{10,"200C2",{12,5,2015},20001,1,0}
 		};
 
 			for(i =0; i<cantidad;i++){
@@ -309,19 +256,17 @@ int removerReparacionPorSerieElectrod(eReparacion* listaReparacion,int largoRepa
 {
 	int vRetorno = -1;
 	int posicionElectrodomestico;
-	char serie[11];
 	int i;
 
 	if (listaReparacion != NULL && largoReparacion > 0 && vIdElectrodomestico>0) {
 
-
 		posicionElectrodomestico = buscarElectrodomesticosPorId(listaElectrodomestico, largoElectrodomestico, vIdElectrodomestico);
+
 		if(posicionElectrodomestico>=0){
-			strcpy(serie, listaElectrodomestico[posicionElectrodomestico].serie);
 
 			for(i=0;i<largoReparacion;i++){
 
-				if(listaReparacion[i].estaVacio == 0 && strcmp(listaReparacion[i].serie,serie)==0)
+				if(listaReparacion[i].estaVacio == 0 && strcmp(listaReparacion[i].serie,listaElectrodomestico[posicionElectrodomestico].serie)==0)
 				{
 					listaReparacion[i].estaVacio = 1;
 					vRetorno=0;

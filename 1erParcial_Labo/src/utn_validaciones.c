@@ -469,7 +469,8 @@ int utn_getTextoSoloLetras(char *arrayCarateres, int largo, char *mensaje,
 	return vRetorno;
 }
 int unt_preguntaRespuestaBinaria(char *mensaje, char caracterParaSi,
-		char caracterParaNo) {
+		char caracterParaNo)
+{
 
 	char vRespuestaVolver;
 	int vRetorno = 0;
@@ -601,13 +602,15 @@ static int esFecha(char *cadena, int *dia, int *mes, int *anio) {
 						vRetorno = -1;
 					}
 					break;
-
-					if (vRetorno == 0) {
-						*dia = numDia;
-						*mes = numMes;
-						*anio = numAnio;
-					}
 				}
+
+				if (vRetorno == 0)
+				{
+					*dia = numDia;
+					*mes = numMes;
+					*anio = numAnio;
+				}
+
 			}
 		}
 	}
@@ -631,9 +634,7 @@ static int getStringFecha(int *pResultadoDia, int *pResultadoMes,int *pResultado
 			*pResultadoDia = vBufferDia;
 			*pResultadoMes = vBufferMes;
 			*pResultadoAnio = vBufferAnio;
-
-			vRetorno = 0;
-
+			vRetorno=0;
 		}
 	}
 
@@ -672,9 +673,7 @@ int utn_getFecha(int *dia, int *mes, int *anio, char *mensaje,
 			reintentos--;
 
 		} while (reintentos >= 0);
-
 	}
-
 	return vRetorno;
 
 }
@@ -832,15 +831,15 @@ static int getDNI(char *pCuit, int largo)
 	return vRetorno;
 }
 
-int utn_tomarDNI(char *pCuit,char *mensaje,char* mensajeError,int largo, int reintentos){
+int utn_tomarDNI(char *pDNI,char *mensaje,char* mensajeError,int largo, int reintentos){
 
 	int vRetorno = -1;
 
-    if( pCuit!=NULL && mensaje!=NULL && largo>0 && reintentos >= 0 && mensajeError!=NULL){
+    if( pDNI!=NULL && mensaje!=NULL && largo>0 && reintentos >= 0 && mensajeError!=NULL){
 
     	do {
     		printf("%s",mensaje);
-    		if(getDNI(pCuit,largo)==1){
+    		if(getDNI(pDNI,largo)==1){
     			vRetorno=0;
     			break;
     		}

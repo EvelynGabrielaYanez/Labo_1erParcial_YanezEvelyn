@@ -61,9 +61,10 @@ int buscarElectrodomesticosPorId(eElectrodomesticos* listaElectrodomesticos, int
 
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0) {
 
-		for (i = 0; i < largoElectrodomesticos; i++) {
 
-			if (listaElectrodomesticos[i].id == id && listaElectrodomesticos[i].estaVacio == 0) {
+		for (i = 0; i < largoElectrodomesticos; i++) {
+			if (listaElectrodomesticos[i].id == id && listaElectrodomesticos[i].estaVacio == 0)
+			{
 				vRetorno = i;
 				break;
 			}
@@ -180,15 +181,16 @@ int imprimirElectrodomesticos(eElectrodomesticos *listaElectrodomesticos, int la
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && listaMarcas != NULL && largoMarcas>0) {
 
 
-		printf("+------------+--------------------------+--------------------------+\n");
-		printf("|   SERIE    |          MODELO          |    DESCRIPCION MARCA     |\n");
-		printf("+------------+--------------------------+--------------------------+\n");
+		printf("+------------+------------+--------------------------+--------------------------+\n");
+		printf("|    ID      |   SERIE    |          MODELO          |    DESCRIPCION MARCA     |\n");
+		printf("+------------+------------+--------------------------+--------------------------+\n");
 		for (i = 0; i < largoElectrodomesticos; i++) {
 
 			if (cargarDescMarca(listaElectrodomesticos[i].idMarca, listaMarcas, largoMarcas, descMarca)==0 && listaElectrodomesticos[i].estaVacio == 0) {
-				printf("|%12s|%26d|%26s|\n",
-						listaElectrodomesticos[i].serie,listaElectrodomesticos[i].modelo,descMarca);
-				printf("+------------+--------------------------+--------------------------+\n");
+				printf("|%12d|%12s|%26d|%26s|\n",
+						listaElectrodomesticos[i].id,listaElectrodomesticos[i].serie,
+						listaElectrodomesticos[i].modelo,descMarca);
+				printf("+------------+------------+--------------------------+--------------------------+\n");
 				 vRetorno = 0;
 			}
 
@@ -207,15 +209,11 @@ int imprimirElectrodomestico(int posicion,eElectrodomesticos *listaElectrodomest
 
 	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0 && listaMarcas != NULL && largoMarcas>0) {
 
-
-		printf("+------------+--------------------------+--------------------------+\n");
-		printf("|   SERIE    |          MODELO          |    DESCRIPCION MARCA     |\n");
-		printf("+------------+--------------------------+--------------------------+\n");
-
 			if (cargarDescMarca(listaElectrodomesticos[posicion].idMarca, listaMarcas, largoMarcas, descMarca)==0 && listaElectrodomesticos[posicion].estaVacio == 0) {
-				printf("|%12s|%26d|%26s|\n",
-						listaElectrodomesticos[posicion].serie,listaElectrodomesticos[posicion].modelo,descMarca);
-				printf("+------------+--------------------------+--------------------------+\n");
+				printf("|%12d|%12s|%26d|%26s|\n",
+						listaElectrodomesticos[posicion].id,listaElectrodomesticos[posicion].serie,
+						listaElectrodomesticos[posicion].modelo,descMarca);
+				printf("+------------+------------+--------------------------+--------------------------+\n");
 				 vRetorno = 0;
 			}
 
@@ -282,16 +280,16 @@ int hardcodearElectrodomesticos(eElectrodomesticos* listaElectrodomesticos ,int 
 	if(listaElectrodomesticos !=  NULL && largoElectrodomesticos>0 && cantidad>0 && cantidad<= largoElectrodomesticos && cantidad<11){
 		eElectrodomesticos listaAuxiliar[] =
 		{
-				{0,"20000", 1000, 1999,0},
-				{1,"2000", 1000, 1992,0},
-				{2,"20002", 1001, 2019,0},
-				{3,"20003", 1002, 1987,0},
-				{4,"20004", 1003, 2019,0},
-				{5,"20005", 1003, 1887,0},
-				{6,"20006", 1004, 1887,0},
-				{7,"20007", 1001, 2019,0},
-				{8,"20008", 1002, 1999,0},
-				{9,"20009", 1001, 2019,0}
+				{1,"20000", 1000, 1999,0},
+				{2,"2000A", 1000, 1992,0},
+				{3,"200C2", 1001, 2019,0},
+				{4,"20003", 1002, 1987,0},
+				{5,"20004", 1003, 2019,0},
+				{6,"20005", 1003, 1887,0},
+				{7,"20006", 1004, 1887,0},
+				{8,"20L07", 1001, 2019,0},
+				{9,"20008", 1002, 1999,0},
+				{10,"20009", 1001, 2019,0}
 		};
 
 			for(i =0; i<cantidad;i++){
@@ -379,5 +377,51 @@ int pedirSeriePorPantalla(eElectrodomesticos* listadoElectrodomesticos, int larg
 
 		}while(reintentos>=0  && vRetorno == -1);
 	}
+	return vRetorno;
+}
+int buscarElectrodomesticosPorSerie(eElectrodomesticos* listaElectrodomesticos, int largoElectrodomesticos,char* serie){
+
+	int vRetorno = -1;
+	int i;
+
+	if (listaElectrodomesticos != NULL && largoElectrodomesticos > 0) {
+
+		for (i = 0; i < largoElectrodomesticos; i++) {
+
+			if (strcmp(listaElectrodomesticos[i].serie,serie)==0 && listaElectrodomesticos[i].estaVacio == 0)
+			{
+				vRetorno = i;
+				break;
+			}
+		}
+	}
+
+	return vRetorno;
+
+}
+
+int pedirElectrodonesticoPorID(int *pIdResultado, char *mensaje, char *mensajeError ,eElectrodomesticos *listaElectrodomesticos,
+		int largoElectrodomesticos ,eMarca *listaMarcas,int largoMarcas, int reintentos) {
+
+	int vRetorno = -1;
+	int vBufferId;
+
+	if (pIdResultado != NULL && listaMarcas != NULL && largoMarcas > 0
+			&& reintentos >= 0) {
+		do {
+			system("cls");
+			if (imprimirElectrodomesticos(listaElectrodomesticos, largoElectrodomesticos, listaMarcas, largoMarcas) == 0
+					&& utn_getNumeroMin(&vBufferId, mensaje, mensajeError, -1, 0) == 0
+					&& buscarElectrodomesticosPorId(listaElectrodomesticos, largoElectrodomesticos, vBufferId)>= 0) {
+				*pIdResultado = vBufferId;
+				vRetorno = 0;
+				system("cls");
+				break;
+			}
+			reintentos--;
+		} while (reintentos >= 0);
+
+	}
+
 	return vRetorno;
 }
